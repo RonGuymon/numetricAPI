@@ -10,7 +10,7 @@ Description: Functions for accessing and manipulating datasets and dashboards in
 License: Numetric
 Encoding: UTF-8
 LazyData: true
-Imports:
+Depends:
     httr (>= 1.2.1),
     jsonlite (>= 1.4),
     dplyr (>= 0.5.0),
