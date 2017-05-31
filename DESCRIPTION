@@ -1,0 +1,18 @@
+Package: numetricApi
+Type: Package
+Title: Functions to use Numetric's API
+Version: 0.1.0
+Author: Ronald Guymon <ron@numetric.com>
+Maintainer: Ronald Guymon <ron@numetric.com>
+Date: 05/30/2017
+Description: Functions for accessing and manipulating datasets and dashboards in
+    Numetric. You need an API key and dataset Ids and dashboard Ids.
+License: Numetric
+Encoding: UTF-8
+LazyData: true
+Imports:
+    httr (>= 1.2.1),
+    jsonlite (>= 1.4),
+    dplyr (>= 0.5.0),
+    magrittr (>= 1.5)
+RoxygenNote: 5.0.1
