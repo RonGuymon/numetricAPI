@@ -12,7 +12,7 @@
 #' @param geopoints The column name, or vector of column names, in quotes, that will be stored as a geoPoint (for heatmaps). This needs to be in the format, "lat,long".
 #' @param boolean The column name, or vector of column names, in quotes, that will be stored as True/False. True = 1, False = 0.
 #' @param everyone Defaults to "false". If set to "true", then it will allow everyone in the org to see the dataset.
-#' @return What does this return, B-ry?
+#' @return Numetric Id
 #' @export
 createTable <- function(apiKey, numetricName, dataframeName, category = "New Data", primaryKey, geoshapes = "", geopoints = "", boolean = "", everyone = "false"){
   # Example: nApiCreateTableV3(apiKey = apiKey, numetricName = "Retail Sports",dataframeName = sport2Sample,category = "Retail Sports", primaryKey="primaryKey")
