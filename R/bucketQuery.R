@@ -7,9 +7,31 @@
 #' @param apiKey The API key, in quotes. You can find the API key in the settings after logging into Numetric
 #' @param datasetId The dataset ID, in quotes. The dataset ID can be found by using the getDatasets function, or by navigating to the dataset in Numetric, and selecting the string after the last forward slash.
 #' @param bucketVar The name of the dataset column, in quotes, that will be used to bucket the data.
+#' @param filterType The type of filter to apply. Options are "term", "range", or "none". Default value is "none".
+#' @param filterField The name of the column, in quotes, to use as a filter.
+#' @param filterValue This is only used when applying a term filter. The value in quotes, is what will be included. (If the must argument is set to "false", then this will be an exclude filter.)
+#' @param must Whether the term filter is an include or excludes filter. By default it's set to "true", which is an includes filter. If set to "false", then it will be an excludes term filter.
+#' @param lowerBound This lower end of the range, lower boundary included, which is only specified when applying a range filter. The value, in quotes, should either be a date string formatted as "2017-06-02T00:00:00.000", or a number.
+#' @param upperBound This upper end of the range, upper boundary included, which is only specified when applying a range filter. The value, in quotes, should either be a date string formatted as "2017-06-02T00:00:00.000", or a number.
 #' @return Returns a dataframe.
 #' @export
-bucketQuery <- function(apiKey, datasetId, bucketVar){
+bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filterField, filterValue, must = "true", lowerBound, upperBound){
+if(filterType == "term"){
+  filters <- paste0('{"filters":
+  [{"filter": "', filterType, '",
+    "field": "',filterField,'",
+    "value": "',filterValue,'",
+    "must":', must,'}]')
+} else if(filterType == "range"){
+  filters <- paste0('{"filters":
+  [{"filter": "', filterType, '",
+                    "field": "',filterField,'",
+                    "gte": "',lowerBound,'",
+                    "lte": "', upperBound, '"}]')
+} else if(filterType == "none"){
+  filters <- ""
+}
+
 
   r <- POST(paste("https://api.numetric.com/v2/dataset/",
                   datasetId,
@@ -18,15 +40,13 @@ bucketQuery <- function(apiKey, datasetId, bucketVar){
   ),
   add_headers("Authorization" = apiKey,
               "Content-Type" = "application/json"),
-  body = paste(
-    '{"schema":[{
+  body = paste0(
+    filters,
+    ',"schema":[{
     "type": "bucket",
-    "field": "',
-    bucketVar,
-    '","key": "',
-    bucketVar,
-    '", "__size": 10000}]}',
-    sep = ""),
+    "field": "',bucketVar,'",
+    "key": "',bucketVar,'",
+    "__size": 10000}]}'),
   verbose()
   )
   response <- content(r, as = "text") # Saves what was returned as raw text with all the encodings
