@@ -13,20 +13,36 @@
 #' @param endRange If the filterType == range, then this is a maximum numeric value or date, in quotes. If it's a date, then it should be in the format of "2017-05-30T00.00.00.000".
 #' @return Returns a dataframe.
 #' @export
-getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField = "", filterValue = "", startRange = "", endRange = ""){
+getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField = "", filterValue = "", startRange = "", endRange = "", size = 10000, includes, excludes){
+  # Includes
+  if(missing(includes)){
+    includeCols <- ""
+  } else{
+    includeCols <- paste(includes, collapse = '","')
+    includeCols <- paste0(',"includes":["', includeCols, '"]')
+  }
+  # Excludes
+  if(missing(excludes)){
+    excludeCols <- ""
+  } else{
+    excludeCols <- paste(excludes, collapse = '","')
+    excludeCols <- paste0(',"excludes":["', excludeCols,'"]')
+  }
   if(filterType == "term"){
-    body <- paste(
+    body <- paste0(
       '{"filters": [{"filter": "',
       filterType,
       '","field": "',
       filterField,
       '", "value": "',
       filterValue,
-      '"}], "size": 10000}',
-      sep = ""
+      '"}], "size":',size,
+      includeCols,
+      excludeCols,
+      '}'
     )
   } else if(filterType == "range" & class(startRange) == "numeric"){
-    body <- paste(
+    body <- paste0(
       '"filters": [{"filter": "',
       filterType,
       '","field": "',
@@ -35,8 +51,10 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
       startRange,
       ', "lte": ',
       endRange,
-      '}], "size": 10000}',
-      sep = ""
+      '}], "size":',size,
+      includeCols,
+      excludeCols,
+      '}'
     )
   } else if(filterType == "range" & class(startRange) == "character"){
     body <- paste(
@@ -48,8 +66,10 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
       startRange,
       '", "lte": "',
       endRange,
-      '"}], "size": 10000}',
-      sep = ""
+      '"}], "size":',size,
+      includeCols,
+      excludeCols,
+      '}'
     )
   }
 
