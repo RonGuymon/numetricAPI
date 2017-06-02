@@ -49,7 +49,7 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
                           "type": "value",
                           "valueType": "',childOperation,'"
                        }
-                       ],
+                       ]
                        ')
   }
 
@@ -62,12 +62,11 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
               "Content-Type" = "application/json"),
   body = paste0('{',
     filters,
-    children,
     '"schema":[{
     "type": "bucket",
     "field": "',bucketVar,'",
     "key": "',bucketVar,'",
-    "__size": 10000}]}'),
+    "__size": 10000',children,'}]}'),
   verbose()
   )
   response <- content(r, as = "text") # Saves what was returned as raw text with all the encodings
