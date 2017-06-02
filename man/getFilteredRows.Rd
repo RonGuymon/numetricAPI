@@ -5,7 +5,8 @@
 \title{Get up to 10,000 rows of a filtered dataset (V2)}
 \usage{
 getFilteredRows(apiKey, datasetId, filterType = "term", filterField = "",
-  filterValue = "", startRange = "", endRange = "")
+  filterValue = "", startRange = "", endRange = "", size = 10000,
+  includes, excludes)
 }
 \arguments{
 \item{apiKey}{The API key, in quotes. You can find the API key in the settings after logging into Numetric}
@@ -19,6 +20,12 @@ getFilteredRows(apiKey, datasetId, filterType = "term", filterField = "",
 \item{startRange}{If the filterType == range, then this is a minimum numeric value or date, in quotes. If it's a date, then it should be in the format of "2017-05-30T00.00.00.000".}
 
 \item{endRange}{If the filterType == range, then this is a maximum numeric value or date, in quotes. If it's a date, then it should be in the format of "2017-05-30T00.00.00.000".}
+
+\item{size}{The maximum number of rows of data to return. The default and maximum is 10,000.}
+
+\item{includes}{Optional. A vector of stings listing the column names that you want to INCLUDE. The default is to include all columns.}
+
+\item{excludes}{Optional. A vector of stings listing the column names that you want to EXCLUDE. The default is to exclude no columns.}
 
 \item{bucketVar}{The name of the dataset column, in quotes, that will be used to bucket the data.}
 }

@@ -4,7 +4,9 @@
 \alias{bucketQuery}
 \title{Bucket query a Numetric dataset (V2)}
 \usage{
-bucketQuery(apiKey, datasetId, bucketVar)
+bucketQuery(apiKey, datasetId, bucketVar, filterType = "none", filterField,
+  filterValue, must = "true", lowerBound, upperBound, childField,
+  childOperation)
 }
 \arguments{
 \item{apiKey}{The API key, in quotes. You can find the API key in the settings after logging into Numetric}
@@ -12,6 +14,22 @@ bucketQuery(apiKey, datasetId, bucketVar)
 \item{datasetId}{The dataset ID, in quotes. The dataset ID can be found by using the getDatasets function, or by navigating to the dataset in Numetric, and selecting the string after the last forward slash.}
 
 \item{bucketVar}{The name of the dataset column, in quotes, that will be used to bucket the data.}
+
+\item{filterType}{The type of filter to apply. Options are "term", "range", or "none". Default value is "none".}
+
+\item{filterField}{The name of the column, in quotes, to use as a filter.}
+
+\item{filterValue}{This is only used when applying a term filter. The value in quotes, is what will be included. (If the must argument is set to "false", then this will be an exclude filter.)}
+
+\item{must}{Whether the term filter is an include or excludes filter. By default it's set to "true", which is an includes filter. If set to "false", then it will be an excludes term filter.}
+
+\item{lowerBound}{This lower end of the range, lower boundary included, which is only specified when applying a range filter. The value, in quotes, should either be a date string formatted as "2017-06-02T00:00:00.000", or a number.}
+
+\item{upperBound}{This upper end of the range, upper boundary included, which is only specified when applying a range filter. The value, in quotes, should either be a date string formatted as "2017-06-02T00:00:00.000", or a number.}
+
+\item{childField}{The name of a column, in quotes, that you want to perform an operation on.}
+
+\item{childOperation}{The name of an operation (avg, sum, cardinality), in quotes, to perform on a child.}
 }
 \value{
 Returns a dataframe.

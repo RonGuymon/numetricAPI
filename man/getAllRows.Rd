@@ -4,12 +4,18 @@
 \alias{getAllRows}
 \title{Get up to 10,000 rows of a dataset (V2)}
 \usage{
-getAllRows(apiKey, datasetId)
+getAllRows(apiKey, datasetId, size = 10000, includes, excludes)
 }
 \arguments{
 \item{apiKey}{The API key, in quotes. You can find the API key in the settings after logging into Numetric}
 
-\item{bucketVar}{The name of the dataset column, in quotes, that will be used to bucket the data.}
+\item{datasetId}{The dataset Id, in quotes. You can find the dataset Id by using the getDatasets function, or by navigating to the dataset. The string after the last forward slash in the url is the dataset Id.}
+
+\item{size}{The maximum number of rows of data to return. The default and maximum is 10,000.}
+
+\item{includes}{Optional. A vector of stings listing the column names that you want to INCLUDE. The default is to include all columns.}
+
+\item{excludes}{Optional. A vector of stings listing the column names that you want to EXCLUDE. The default is to exclude no columns.}
 }
 \value{
 Returns a dataframe.

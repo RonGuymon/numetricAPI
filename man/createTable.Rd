@@ -30,7 +30,7 @@ createTable(apiKey, numetricName, dataframeName, category = "New Data",
 \item{autocompletes}{The column name, or vector of column names, in quotes, that will autocomplete in the Numetric quick search bar.}
 }
 \value{
-What does this return, B-ry?
+Numetric Id
 }
 \description{
 Create a new table in a Numetric Org.

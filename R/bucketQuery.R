@@ -13,25 +13,45 @@
 #' @param must Whether the term filter is an include or excludes filter. By default it's set to "true", which is an includes filter. If set to "false", then it will be an excludes term filter.
 #' @param lowerBound This lower end of the range, lower boundary included, which is only specified when applying a range filter. The value, in quotes, should either be a date string formatted as "2017-06-02T00:00:00.000", or a number.
 #' @param upperBound This upper end of the range, upper boundary included, which is only specified when applying a range filter. The value, in quotes, should either be a date string formatted as "2017-06-02T00:00:00.000", or a number.
+#' @param childField The name of a column, in quotes, that you want to perform an operation on.
+#' @param childOperation The name of an operation (avg, sum, cardinality), in quotes, to perform on a child.
 #' @return Returns a dataframe.
 #' @export
-bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filterField, filterValue, must = "true", lowerBound, upperBound){
-if(filterType == "term"){
-  filters <- paste0('{"filters":
-  [{"filter": "', filterType, '",
-    "field": "',filterField,'",
-    "value": "',filterValue,'",
-    "must":', must,'}]')
-} else if(filterType == "range"){
-  filters <- paste0('{"filters":
-  [{"filter": "', filterType, '",
-                    "field": "',filterField,'",
-                    "gte": "',lowerBound,'",
-                    "lte": "', upperBound, '"}]')
-} else if(filterType == "none"){
-  filters <- ""
-}
+bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filterField, filterValue, must = "true", lowerBound, upperBound, childField, childOperation){
 
+  # Filters
+  if(filterType == "term"){
+    filters <- paste0('{"filters":
+    [{"filter": "', filterType, '",
+      "field": "',filterField,'",
+      "value": "',filterValue,'",
+      "must":', must,'}],')
+  } else if(filterType == "range"){
+    filters <- paste0('{"filters":
+    [{"filter": "', filterType, '",
+                      "field": "',filterField,'",
+                      "gte": "',lowerBound,'",
+                      "lte": "', upperBound, '"}],')
+  } else if(filterType == "none"){
+    filters <- ""
+  }
+
+
+  # Children
+  if(missing(child)){
+    children <- ""
+  } else{
+    children <- paste0('
+                       ,"children":[
+                       {
+                          "key": "',child,'",
+                          "field": "',child,'",
+                          "type": "value",
+                          "valueType": "',childOperation,'"
+                       }
+                       ],
+                       ')
+  }
 
   r <- POST(paste("https://api.numetric.com/v2/dataset/",
                   datasetId,
@@ -42,7 +62,8 @@ if(filterType == "term"){
               "Content-Type" = "application/json"),
   body = paste0(
     filters,
-    ',"schema":[{
+    children,
+    '"schema":[{
     "type": "bucket",
     "field": "',bucketVar,'",
     "key": "',bucketVar,'",
