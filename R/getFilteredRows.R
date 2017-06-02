@@ -11,6 +11,9 @@
 #' @param filterValue If the filterType == term, then this should be the value, in quotes, by which to filter the data.
 #' @param startRange If the filterType == range, then this is a minimum numeric value or date, in quotes. If it's a date, then it should be in the format of "2017-05-30T00.00.00.000".
 #' @param endRange If the filterType == range, then this is a maximum numeric value or date, in quotes. If it's a date, then it should be in the format of "2017-05-30T00.00.00.000".
+#' @param size The maximum number of rows of data to return. The default and maximum is 10,000.
+#' @param includes Optional. A vector of stings listing the column names that you want to INCLUDE. The default is to include all columns.
+#' @param excludes Optional. A vector of stings listing the column names that you want to EXCLUDE. The default is to exclude no columns.
 #' @return Returns a dataframe.
 #' @export
 getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField = "", filterValue = "", startRange = "", endRange = "", size = 10000, includes, excludes){
