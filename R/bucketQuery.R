@@ -7,9 +7,10 @@
 #' @param apiKey The API key, in quotes. You can find the API key in the settings after logging into Numetric
 #' @param datasetId The dataset ID, in quotes. The dataset ID can be found by using the getDatasets function, or by navigating to the dataset in Numetric, and selecting the string after the last forward slash.
 #' @param bucketVar The name of the dataset column, in quotes, that will be used to bucket the data.
-#' @param filterType The type of filter to apply. Options are "term", "range", or "none". Default value is "none".
-#' @param filterField The name of the column, in quotes, to use as a filter.
-#' @param filterValue This is only used when applying a term filter. The value in quotes, is what will be included. (If the must argument is set to "false", then this will be an exclude filter.)
+#' @param filterType The type of filter to apply. Options are "term", "range", "custom", or "none". Default value is "none".
+#' @param filterField The name of the column, in quotes, to use as a filter. This should not used when the filterType is "custom".
+#' @param filterValue This is only used when applying a term filter. The value in quotes, is what will be included. (If the must argument is set to "false", then this will be an exclude filter.) This should not used when the filterType is "custom".
+#' @param customFilterValue This is used in conjunction with a custom filterType. The format should be: {"filter": "term", "field": "fieldName", "value": "value"}
 #' @param must Whether the term filter is an include or excludes filter. By default it's set to "true", which is an includes filter. If set to "false", then it will be an excludes term filter.
 #' @param lowerBound This lower end of the range, lower boundary included, which is only specified when applying a range filter. The value, in quotes, should either be a date string formatted as "2017-06-02T00:00:00.000", or a number.
 #' @param upperBound This upper end of the range, upper boundary included, which is only specified when applying a range filter. The value, in quotes, should either be a date string formatted as "2017-06-02T00:00:00.000", or a number.
@@ -17,7 +18,7 @@
 #' @param childOperation The name of an operation (avg, sum, cardinality), in quotes, to perform on a child.
 #' @return Returns a dataframe.
 #' @export
-bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filterField, filterValue, must = "true", lowerBound, upperBound, childField, childOperation){
+bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filterField, filterValue, customFilterValue, must = "true", lowerBound, upperBound, childField, childOperation){
 
   # Filters
   if(filterType == "term"){
@@ -32,7 +33,10 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
                       "field": "',filterField,'",
                       "gte": "',lowerBound,'",
                       "lte": "', upperBound, '"}],')
-  } else if(filterType == "none"){
+  } else if(filterType == "custom"){
+    filters <- paste0('"filters":[',filter,'],')
+  }
+  else if(filterType == "none"){
     filters <- ""
   }
 
