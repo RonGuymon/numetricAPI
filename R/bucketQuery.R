@@ -41,15 +41,15 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
   if(missing(childField)){
     children <- ""
   } else{
-    children <- paste0('
-                       ,"children":[
+    children <- paste0(',
+                "children":[
                        {
                           "key": "',childField,'",
                           "field": "',childField,'",
                           "type": "value",
                           "valueType": "',childOperation,'"
                        }
-                       ]
+                  ]
                        ')
   }
 
