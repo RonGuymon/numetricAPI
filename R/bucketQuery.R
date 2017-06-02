@@ -38,7 +38,7 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
 
 
   # Children
-  if(missing(child)){
+  if(missing(childField)){
     children <- ""
   } else{
     children <- paste0('
