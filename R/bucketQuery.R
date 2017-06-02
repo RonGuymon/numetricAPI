@@ -44,8 +44,8 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
     children <- paste0('
                        ,"children":[
                        {
-                          "key": "',child,'",
-                          "field": "',child,'",
+                          "key": "',childField,'",
+                          "field": "',childField,'",
                           "type": "value",
                           "valueType": "',childOperation,'"
                        }
