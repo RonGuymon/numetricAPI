@@ -21,13 +21,13 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
 
   # Filters
   if(filterType == "term"){
-    filters <- paste0('{"filters":
+    filters <- paste0('"filters":
     [{"filter": "', filterType, '",
       "field": "',filterField,'",
       "value": "',filterValue,'",
       "must":', must,'}],')
   } else if(filterType == "range"){
-    filters <- paste0('{"filters":
+    filters <- paste0('"filters":
     [{"filter": "', filterType, '",
                       "field": "',filterField,'",
                       "gte": "',lowerBound,'",
@@ -60,7 +60,7 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
   ),
   add_headers("Authorization" = apiKey,
               "Content-Type" = "application/json"),
-  body = paste0(
+  body = paste0('{',
     filters,
     children,
     '"schema":[{
