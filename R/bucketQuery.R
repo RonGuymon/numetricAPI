@@ -34,7 +34,7 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
                       "gte": "',lowerBound,'",
                       "lte": "', upperBound, '"}],')
   } else if(filterType == "custom"){
-    filters <- paste0('"filters":[',filter,'],')
+    filters <- paste0('"filters":[',customFilterValue,'],')
   }
   else if(filterType == "none"){
     filters <- ""
