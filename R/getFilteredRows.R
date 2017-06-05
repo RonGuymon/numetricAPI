@@ -43,7 +43,7 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
     )
   } else if(filterType == "range" & class(startRange) == "numeric"){
     body <- paste0(
-      '"filters": [{"filter": "',filterType,'",
+      '{"filters": [{"filter": "',filterType,'",
       "field": "',filterField,'",
       "gte": ',startRange,',
       "lte": ',endRange,'}],
@@ -54,7 +54,7 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
     )
   } else if(filterType == "range" & class(startRange) == "character"){
     body <- paste0(
-      '"filters": [{"filter": "',filterType,'",
+      '{"filters": [{"filter": "',filterType,'",
       "field": "',filterField,'",
       "gte": "',startRange,'",
       "lte": "',endRange,'"}],
