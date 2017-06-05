@@ -6,9 +6,11 @@
 #' This function uses the V2 version of the API.
 #' @param apiKey The API key, in quotes. You can find the API key in the settings after logging into Numetric
 #' @param bucketVar The name of the dataset column, in quotes, that will be used to bucket the data.
-#' @param filterType The type of filter (term or range), in quotes. Defaults to "term", but can also be "range" for a numeric or date range.
-#' @param filterField The name of the column, in quotes, to be used as the filter.
-#' @param filterValue If the filterType == term, then this should be the value, in quotes, by which to filter the data.
+#' @param filterType The type of filter to apply. Options are "term", "range", "custom", or "none". Default value is "none".
+#' @param filterField The name of the column, in quotes, to use as a filter. This should not used when the filterType is "custom".
+#' @param filterValue This is only used when applying a term filter. The value in quotes, is what will be included. (If the must argument is set to "false", then this will be an exclude filter.) This should not used when the filterType is "custom".
+#' @param customFilterValue This is used in conjunction with a custom filterType. The format should be: {"filter": "term", "field": "fieldName", "value": "value"}
+#' @param must Whether the term filter is an include or excludes filter. By default it's set to "true", which is an includes filter. If set to "false", then it will be an excludes term filter.
 #' @param startRange If the filterType == range, then this is a minimum numeric value or date, in quotes. If it's a date, then it should be in the format of "2017-05-30T00.00.00.000".
 #' @param endRange If the filterType == range, then this is a maximum numeric value or date, in quotes. If it's a date, then it should be in the format of "2017-05-30T00.00.00.000".
 #' @param size The maximum number of rows of data to return. The default and maximum is 10,000.
@@ -32,39 +34,35 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
     excludeCols <- paste0(',"excludes":["', excludeCols,'"]')
   }
   if(filterType == "term"){
-    body <- paste0(
-      '{"filters": [{"filter": "',filterType,'",
+    filters <- paste0(
+      '"filters": [{"filter": "',filterType,'",
       "field": "',filterField,'",
-      "value": "',filterValue,'"}],
-      "size":',size,
-      includeCols,
-      excludeCols,
-      '}'
+      "value": "',filterValue,'"}],'
     )
   } else if(filterType == "range" & class(startRange) == "numeric"){
-    body <- paste0(
-      '{"filters": [{"filter": "',filterType,'",
+    filters <- paste0(
+      '"filters": [{"filter": "',filterType,'",
       "field": "',filterField,'",
       "gte": ',startRange,',
-      "lte": ',endRange,'}],
-      "size":',size,
-      includeCols,
-      excludeCols,
-      '}'
+      "lte": ',endRange,'}],'
     )
   } else if(filterType == "range" & class(startRange) == "character"){
-    body <- paste0(
-      '{"filters": [{"filter": "',filterType,'",
+    filters <- paste0(
+      '"filters": [{"filter": "',filterType,'",
       "field": "',filterField,'",
       "gte": "',startRange,'",
-      "lte": "',endRange,'"}],
-      "size":',size,
-      includeCols,
-      excludeCols,
-      '}'
+      "lte": "',endRange,'"}],'
     )
+  } else if(filterType == "custom"){
+    filters <- paste0('"filters":[',customFilterValue,'],')
+  } else if(filterType == "none"){
+    filters <- ""
   }
 
+  body <- paste0('{',filters,
+                 '"size":',size, ',',
+                 includes,
+                 excludes,'}')
 
   r <- POST(paste('https://api.numetric.com/v2/dataset/', datasetId, '/all', sep = ""),
             add_headers("Authorization" = apiKey,
