@@ -53,7 +53,7 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
       '}'
     )
   } else if(filterType == "range" & class(startRange) == "character"){
-    body <- paste(
+    body <- paste0(
       '"filters": [{"filter": "',filterType,'",
       "field": "',filterField,'",
       "gte": "',startRange,'",
