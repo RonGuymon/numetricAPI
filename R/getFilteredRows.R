@@ -33,43 +33,32 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
   }
   if(filterType == "term"){
     body <- paste0(
-      '{"filters": [{"filter": "',
-      filterType,
-      '","field": "',
-      filterField,
-      '", "value": "',
-      filterValue,
-      '"}], "size":',size,
+      '{"filters": [{"filter": "',filterType,'",
+      "field": "',filterField,'",
+      "value": "',filterValue,'"}],
+      "size":',size,
       includeCols,
       excludeCols,
       '}'
     )
   } else if(filterType == "range" & class(startRange) == "numeric"){
     body <- paste0(
-      '"filters": [{"filter": "',
-      filterType,
-      '","field": "',
-      filterField,
-      '", "gte": ',
-      startRange,
-      ', "lte": ',
-      endRange,
-      '}], "size":',size,
+      '"filters": [{"filter": "',filterType,'",
+      "field": "',filterField,'",
+      "gte": ',startRange,',
+      "lte": ',endRange,'}],
+      "size":',size,
       includeCols,
       excludeCols,
       '}'
     )
   } else if(filterType == "range" & class(startRange) == "character"){
     body <- paste(
-      '"filters": [{"filter": "',
-      filterType,
-      '","field": "',
-      filterField,
-      '", "gte": "',
-      startRange,
-      '", "lte": "',
-      endRange,
-      '"}], "size":',size,
+      '"filters": [{"filter": "',filterType,'",
+      "field": "',filterField,'",
+      "gte": "',startRange,'",
+      "lte": "',endRange,'"}],
+      "size":',size,
       includeCols,
       excludeCols,
       '}'
