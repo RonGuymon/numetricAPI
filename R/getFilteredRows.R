@@ -60,7 +60,7 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
   }
 
   body <- paste0('{',filters,
-                 '"size":',size, ',',
+                 '"size":',size,
                  includeCols,
                  excludeCols,'}')
 
