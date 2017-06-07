@@ -61,8 +61,8 @@ getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField 
 
   body <- paste0('{',filters,
                  '"size":',size, ',',
-                 includes,
-                 excludes,'}')
+                 includeCols,
+                 excludeCols,'}')
 
   r <- POST(paste('https://api.numetric.com/v2/dataset/', datasetId, '/all', sep = ""),
             add_headers("Authorization" = apiKey,
