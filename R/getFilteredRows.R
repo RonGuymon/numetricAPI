@@ -18,7 +18,7 @@
 #' @param excludes Optional. A vector of stings listing the column names that you want to EXCLUDE. The default is to exclude no columns.
 #' @return Returns a dataframe.
 #' @export
-getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField = "", filterValue = "", startRange = "", endRange = "", size = 10000, includes, excludes){
+getFilteredRows <- function(apiKey, datasetId, filterType = "term", filterField = "", filterValue = "", startRange = "", endRange = "", size = 10000, includes = "", excludes = ""){
   # Includes
   if(missing(includes)){
     includeCols <- ""
