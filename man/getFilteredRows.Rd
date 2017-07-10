@@ -5,17 +5,19 @@
 \title{Get up to 10,000 rows of a filtered dataset (V2)}
 \usage{
 getFilteredRows(apiKey, datasetId, filterType = "term", filterField = "",
-  filterValue = "", startRange = "", endRange = "", size = 10000,
-  includes, excludes)
+  filterValue = "", customFilterValue = "", startRange = "",
+  endRange = "", size = 10000, includes = "", excludes = "")
 }
 \arguments{
 \item{apiKey}{The API key, in quotes. You can find the API key in the settings after logging into Numetric}
 
-\item{filterType}{The type of filter (term or range), in quotes. Defaults to "term", but can also be "range" for a numeric or date range.}
+\item{filterType}{The type of filter to apply. Options are "term", "range", "custom", or "none". Default value is "none".}
 
-\item{filterField}{The name of the column, in quotes, to be used as the filter.}
+\item{filterField}{The name of the column, in quotes, to use as a filter. This should not used when the filterType is "custom".}
 
-\item{filterValue}{If the filterType == term, then this should be the value, in quotes, by which to filter the data.}
+\item{filterValue}{This is only used when applying a term filter. The value in quotes, is what will be included. (If the must argument is set to "false", then this will be an exclude filter.) This should not used when the filterType is "custom".}
+
+\item{customFilterValue}{This is used in conjunction with a custom filterType. The format should be: {"filter": "term", "field": "fieldName", "value": "value"}}
 
 \item{startRange}{If the filterType == range, then this is a minimum numeric value or date, in quotes. If it's a date, then it should be in the format of "2017-05-30T00.00.00.000".}
 
@@ -28,6 +30,8 @@ getFilteredRows(apiKey, datasetId, filterType = "term", filterField = "",
 \item{excludes}{Optional. A vector of stings listing the column names that you want to EXCLUDE. The default is to exclude no columns.}
 
 \item{bucketVar}{The name of the dataset column, in quotes, that will be used to bucket the data.}
+
+\item{must}{Whether the term filter is an include or excludes filter. By default it's set to "true", which is an includes filter. If set to "false", then it will be an excludes term filter.}
 }
 \value{
 Returns a dataframe.
@@ -39,4 +43,3 @@ This is especially useful when trying to download a dataset from Numetric that h
 
 This function uses the V2 version of the API.
 }
-

@@ -17,4 +17,3 @@ Returns a dataframe with meta-data about all of the dashboards in an org.
 
 This function uses the V2 version of the API.
 }
-

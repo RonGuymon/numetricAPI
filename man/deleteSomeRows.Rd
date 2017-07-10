@@ -18,4 +18,3 @@ Deletes rows of a dataset based on a vector of primary keys.
 
 This function uses the V2 version of the API.
 }
-

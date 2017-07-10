@@ -16,4 +16,3 @@ Clears out all the rows of a dataset, but preserves the id and url of the datase
 
 This function uses the V2 version of the API.
 }
-

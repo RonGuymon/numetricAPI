@@ -39,4 +39,3 @@ This is useful when you want to add new columns to a dataset. You can also use i
 
 This function uses the V2 version of the API.
 }
-

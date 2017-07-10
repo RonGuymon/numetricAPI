@@ -18,4 +18,3 @@ Creates a new dashboard in Numetric.
 
 This function uses the V2 version of the API.
 }
-

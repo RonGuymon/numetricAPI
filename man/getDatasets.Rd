@@ -12,4 +12,3 @@ getDatasets(apiKey)
 \description{
 Returns a table with meta-data about all the tables. This function uses the V2 version of the API.
 }
-

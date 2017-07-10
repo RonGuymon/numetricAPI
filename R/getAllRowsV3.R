@@ -6,6 +6,8 @@
 #' @param datasetId The id of the dataset. This can be found by navigating to the dataset in Numetric, and then referring to the string of characters after the last forward slash in the URL.
 #' @return Numetric Id
 #' @export
+
+
 getAllRowsV3 <- function(apiKey, datasetId){
   r <- GET(paste('https://api.numetric.com/v3/table/', datasetId, '/rows', sep = ""),
            add_headers("Authorization" = apiKey,

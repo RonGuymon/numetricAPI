@@ -16,4 +16,3 @@ Deletes a dataset using the API.
 
 This function uses the V2 version of the API.
 }
-

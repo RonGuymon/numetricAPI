@@ -17,4 +17,3 @@ Returns a dataframe.
 \description{
 Find out if the index is complete.  This function uses the V2 version of the API.
 }
-

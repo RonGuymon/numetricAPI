@@ -5,8 +5,8 @@
 \title{Bucket query a Numetric dataset (V2)}
 \usage{
 bucketQuery(apiKey, datasetId, bucketVar, filterType = "none", filterField,
-  filterValue, must = "true", lowerBound, upperBound, childField,
-  childOperation)
+  filterValue, customFilterValue, must = "true", lowerBound, upperBound,
+  childField, childOperation)
 }
 \arguments{
 \item{apiKey}{The API key, in quotes. You can find the API key in the settings after logging into Numetric}
@@ -15,11 +15,13 @@ bucketQuery(apiKey, datasetId, bucketVar, filterType = "none", filterField,
 
 \item{bucketVar}{The name of the dataset column, in quotes, that will be used to bucket the data.}
 
-\item{filterType}{The type of filter to apply. Options are "term", "range", or "none". Default value is "none".}
+\item{filterType}{The type of filter to apply. Options are "term", "range", "custom", or "none". Default value is "none".}
 
-\item{filterField}{The name of the column, in quotes, to use as a filter.}
+\item{filterField}{The name of the column, in quotes, to use as a filter. This should not used when the filterType is "custom".}
 
-\item{filterValue}{This is only used when applying a term filter. The value in quotes, is what will be included. (If the must argument is set to "false", then this will be an exclude filter.)}
+\item{filterValue}{This is only used when applying a term filter. The value in quotes, is what will be included. (If the must argument is set to "false", then this will be an exclude filter.) This should not used when the filterType is "custom".}
+
+\item{customFilterValue}{This is used in conjunction with a custom filterType. The format should be: {"filter": "term", "field": "fieldName", "value": "value"}}
 
 \item{must}{Whether the term filter is an include or excludes filter. By default it's set to "true", which is an includes filter. If set to "false", then it will be an excludes term filter.}
 
@@ -41,4 +43,3 @@ Returns a dataframe with a list of bucket variable values, and the number of obs
 
 This function uses the V2 version of the API.
 }
-

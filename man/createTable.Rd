@@ -37,4 +37,3 @@ Create a new table in a Numetric Org.
 
 This function uses the V3 version of the API.
 }
-
