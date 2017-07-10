@@ -1,4 +1,4 @@
-#' @title Get all data from a table (V3)
+#' @title Get all rows of data from a table (V3)
 #' @description Returns every single row of a V3 table.
 #'
 #' This function uses the V3 version of the API.
