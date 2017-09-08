@@ -14,7 +14,7 @@ getTableDetails <- function(apiKey, tableId, fieldNames = T){
   response <- fromJSON(response) # Converts what was returned to a dataframe
   r2 <- list.flatten(response) %>% as.data.frame()
   colnames(r2) <- gsub("\\.", "_", colnames(r2))
-  if(fieldNames = F){
+  if(fieldNames == F){
     r2 <- r2[,which(grepl("fields_", x = colnames(r2)) == F)]
   }
   return(r2)

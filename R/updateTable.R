@@ -11,9 +11,9 @@
 #' @param geoshapes The column name, or vector of column names, in quotes, that will be stored as a geoShape (point on a map). This needs to be in the format, "lat,long".
 #' @param geopoints The column name, or vector of column names, in quotes, that will be stored as a geoPoint (for heatmaps). This needs to be in the format, "lat,long".
 #' @param boolean The column name, or vector of column names, in quotes, that will be stored as True/False. True = 1, False = 0.
-#' @param everyone Defaults to "false". If set to "true", then it will allow everyone in the org to see the dataset.
 #' @return Numetric Id
 #' @export
+
 updateTable <- function(apiKey, tableId, numetricName, dataframeName, category = "New Data", primaryKey, geoshapes = "", geopoints = "", boolean = ""){
   # Example: nApiCreateTableV3(apiKey = apiKey, numetricName = "Retail Sports",dataframeName = sport2Sample,category = "Retail Sports", primaryKey="primaryKey")
   # Be sure to have a field in the dataframe that is a unique value for each row.
@@ -41,27 +41,27 @@ updateTable <- function(apiKey, tableId, numetricName, dataframeName, category =
   wholeString <- ""
   for (i in 1:nrow(fieldAttributes)){
 
-    tempString <- paste('"',fieldAttributes[i,1],'": {"displayName": "',fieldAttributes[i,2] ,'","type": "',fieldAttributes[i,3],'"},',  sep="")
+    tempString <- paste0('"',fieldAttributes[i,1],'": {"displayName": "',fieldAttributes[i,2] ,'","type": "',fieldAttributes[i,3],'"},')
 
-    wholeString <- paste(wholeString,tempString,sep="")
+    wholeString <- paste0(wholeString,tempString)
     if(i == nrow(fieldAttributes)){
       wholeString <- gsub(",$","",wholeString)
     }
 
   }
 
-  fieldAttributesReady <- paste("{",wholeString,"}",sep="")
+  fieldAttributesReady <- paste0("{",wholeString,"}")
 
   ## Merge the field attributes with the other information required----
-  metadata <- paste('{"name": "', numetricName,
+  metadata <- paste0('{"name": "', numetricName,
                     '","primaryKey": ["', primaryKey,'"],
                     "categories": ["', category,
                     '"],"description": "Stuff indexed through R","fields":',
                     fieldAttributesReady,
-                    '}',
-                    sep = "")
+                    '}'
+                    )
 
-  r <- PATCH(paste0("https://api.numetric.com/v3/table", tableId),
+  r <- PATCH(paste0("https://api.numetric.com/v3/table/", tableId),
             add_headers("Authorization" = apiKey,
                         "Content-Type" = "application/json"),
             body = metadata,

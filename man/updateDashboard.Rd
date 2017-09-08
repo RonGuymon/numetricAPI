@@ -4,11 +4,13 @@
 \alias{updateDashboard}
 \title{Updates an existing Numetric dashboard (V2)}
 \usage{
-updateDashboard(apiKey, datasetId, name = "None", category = "None",
+updateDashboard(apiKey, dashboardId, name = "None", category = "None",
   content)
 }
 \arguments{
 \item{apiKey}{You can find the API key in the settings after logging into Numetric}
+
+\item{dashboardId}{The id of the dashboard. This can be found by using the getDashboards function, or by navigating to the dashboard and then selecting the string after the last forward slash.}
 
 \item{name}{The name of the dashboard, in quotes, in Numetric. Defaults to "None".}
 
