@@ -5,7 +5,7 @@
 #' @export
 deleteAllRowsV3 <- function(apiKey, tableId){
   payload <- '{"publish": true}'
-  r <- DELETE(paste0("https://api.numetric.com/v3/table/", datasetId, "/rows"),
+  r <- DELETE(paste0("https://api.numetric.com/v3/table/", tableId, "/rows"),
               add_headers("Authorization" = apiKey,
                           "Content-Type" = "application/json"),
               body = payload
