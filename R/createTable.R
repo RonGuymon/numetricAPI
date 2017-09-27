@@ -64,6 +64,6 @@ createTable <- function(apiKey, numetricName, dataframeName, category = "New Dat
             body = metadata,
             verbose()
   )
-  content(r)
+  httr::content(r)
 }
 

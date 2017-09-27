@@ -52,7 +52,7 @@ updateDataset <- function(apiKey, datasetId, numetricName, dataframeName, catego
              body = metadata,
              verbose()
   )
-  response <- content(r, as = "text") # Saves what was returned as raw text with all the encodings
+  response <- httr::content(r, as = "text") # Saves what was returned as raw text with all the encodings
 }
 
 

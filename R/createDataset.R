@@ -54,6 +54,6 @@ createDataset <- function(apiKey, numetricName, dataframeName, category = "New D
             body = metadata,
             verbose()
   )
-  content(r)
+  httr::content(r)
 }
 

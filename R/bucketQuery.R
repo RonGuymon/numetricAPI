@@ -73,7 +73,7 @@ bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filte
     "__size": 10000',children,'}]}'),
   verbose()
   )
-  response <- content(r, as = "text") # Saves what was returned as raw text with all the encodings
+  response <- httr::content(r, as = "text") # Saves what was returned as raw text with all the encodings
   response <- fromJSON(response) # Converts what was returned to a dataframe
   return(response)
 }

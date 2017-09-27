@@ -16,7 +16,7 @@ getAllRowsV3 <- function(apiKey, datasetId){
            verbose()
   )
 
-  response <- content(r, as = "text") # Saves what was returned as raw text with all the encodings
+  response <- httr::content(r, as = "text") # Saves what was returned as raw text with all the encodings
   response <- paste("[", response, "]", sep = "") # Adds the beginning and closing brackets
   response <- gsub("[\n]", ",", response) # Replaces carriage returns with commas
   response <- gsub(",]", "]", response) # Removes the last comma

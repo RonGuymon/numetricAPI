@@ -10,7 +10,7 @@ getTableDetails <- function(apiKey, tableId, fieldNames = T){
                        "Content-Type" = "application/json"),
            verbose()
   )
-  response <- content(r, as = "text") # Saves what was returned as raw text with all the encodings
+  response <- httr::content(r, as = "text") # Saves what was returned as raw text with all the encodings
   response <- fromJSON(response) # Converts what was returned to a dataframe
   r2 <- list.flatten(response) %>% as.data.frame()
   colnames(r2) <- gsub("\\.", "_", colnames(r2))

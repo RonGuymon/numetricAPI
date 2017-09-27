@@ -42,7 +42,7 @@ addRowsV3 <- function(apiKey, datasetId, dataframeName, chunkSize = 1500, printS
     }
 
     # Error message
-    ifelse(content(r)$type != "SERVER_ERROR", "",
+    ifelse(httr::content(r)$type != "SERVER_ERROR", "",
            print(paste(content(r)$message,
                        ". The error starts at 10 characters in from this: ",
                        substr(indexReadyData,
