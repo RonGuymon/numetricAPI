@@ -8,7 +8,7 @@
 getTableDetails <- function(apiKey, tableId, fieldNames = T, textOrJSON = "JSON"){
   r <- GET(paste0("https://api.numetric.com/v3/table/", tableId),
            add_headers("Authorization" = apiKey,
-                       "Content-Type" = "application/json"),
+                       `Content-Type` = "application/json"),
            verbose()
   )
   if(textOrJSON == "JSON"){

@@ -104,7 +104,7 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
   # Index the data----
   r <- PATCH(paste0("https://api.numetric.com/v3/table/", tableId),
             add_headers("Authorization" = apiKey,
-                        "Content-Type" = "application/json"),
+                        `Content-Type` = "application/json"),
             body = metadata,
             verbose()
   )
@@ -116,11 +116,12 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
 # library(magrittr)
 # library(jsonlite)
 # apiKey <- "SMGfRBqmXanyL9mCigflRpJUONSbHvxFxWS1Y3Y1sms%3D"
+# tableId2 <- "6f059e23-130b-4ec7-a186-cb4a7749c882" #Signbase2
 # tableId <- "6f059e23-130b-4ec7-a186-cb4a7749c882" #Signbase2
-# # tableId <- "c1753796-83fa-4a65-aaa9-fd71d56462a9" # Signbase
-# category <- "Gnocchi"
+# tableId1 <- "c1753796-83fa-4a65-aaa9-fd71d56462a9" # Signbase
+# category <- "Fettucini"
 #
-# r <- GET(paste0("https://api.numetric.com/v3/table/", tableId),
+# r <- GET(paste0("https://api.numetric.com/v3/table/", tableId1),
 #          add_headers("Authorization" = apiKey,
 #                      "Content-Type" = "application/json"),
 #          verbose()
@@ -134,7 +135,8 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
 #     targetField = "L2DirOfTravel",
 #     index = ifelse(index == 1, 3, 4)
 #   ) %>%
-#   bind_rows(trannies, .)
+#   bind_rows(trannies, .) %>%
+#   .[1:4,]
 
 
 
