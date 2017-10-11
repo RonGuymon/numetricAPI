@@ -16,11 +16,11 @@
 #' @return Numetric Id
 #' @export
 
-updateTable <- function(apiKey, tableId, numetricName = "absent__default", dataframeName = "absent__default", category = "absent__default", primaryKey = "absent__default", geoshapes = "", geopoints = "", boolean = "", transformations = "absent__default"){
+updateTable <- function(apiKey, tableId, numetricName = "absent__default", descriptionName = "absent__default", dataframeName = "absent__default", category = "absent__default", primaryKey = "absent__default", geoshapes = "", geopoints = "", boolean = "", transformations = "absent__default"){
   # Example: nApiCreateTableV3(apiKey = apiKey, numetricName = "Retail Sports",dataframeName = sport2Sample,category = "Retail Sports", primaryKey="primaryKey")
   # Be sure to have a field in the dataframe that is a unique value for each row.
 
-  if(dataframeName == "absent__default"){
+  if(class(dataframeName) == "character" & dataframeName == "absent_default"){
     fieldAttributesReady_body <- '"deleteMe"'
   }else {
     ## Create a dataframe with column attributes----
@@ -60,34 +60,34 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", dataf
 
   }
 
-  if(numetricName != "absent__default"){
-    numetricName_body <- paste0('"name": "', numetricName, '"')
-  }else{
+  if(numetricName == "absent__default"){
     numetricName_body <- '"deleteMe"'
+  }else{
+    numetricName_body <- paste0('"name": "', numetricName, '"')
   }
 
-  if(primaryKey != "absent__default"){
-    primaryKey_body <- paste0('"primaryKey": ["', primaryKey, '"]')
-  }else{
+  if(primaryKey == "absent__default"){
     primaryKey_body <- '"deleteMe"'
+  }else{
+    primaryKey_body <- paste0('"primaryKey": ["', primaryKey, '"]')
   }
 
-  if(category != "absent__default"){
-    category_body <- paste0('"categories": ["', category, '"]')
-  }else{
+  if(category == "absent__default"){
     category_body <- '"deleteMe"'
+  }else{
+    category_body <- paste0('"categories": ["', category, '"]')
   }
 
-  if(description != "absent__default"){
-    description_body <- paste0('"description": "', description, '"')
-  }else{
+  if(description == "absent__default"){
     description_body <- '"deleteMe"'
+  }else{
+    description_body <- paste0('"description": "', description, '"')
   }
 
-  if(transformations != "absent__default"){
-    transformations_body <- paste0('"transformations":', toJSON(transformations))
-  }else{
+  if(class(transformations) == "character" & transformations == "absent_default"){
     transformations_body <- '"deleteMe"'
+  }else{
+    transformations_body <- paste0('"transformations":', toJSON(transformations))
   }
 
   ## Merge the field attributes with the other information required----
