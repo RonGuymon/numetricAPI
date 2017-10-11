@@ -16,11 +16,13 @@
 #' @return Numetric Id
 #' @export
 
-updateTable <- function(apiKey, tableId, numetricName, dataframeName, category, primaryKey, geoshapes = "", geopoints = "", boolean = "", transformations){
+updateTable <- function(apiKey, tableId, numetricName, dataframeName = "absent__default", category, primaryKey, geoshapes = "", geopoints = "", boolean = "", transformations){
   # Example: nApiCreateTableV3(apiKey = apiKey, numetricName = "Retail Sports",dataframeName = sport2Sample,category = "Retail Sports", primaryKey="primaryKey")
   # Be sure to have a field in the dataframe that is a unique value for each row.
 
-  if(exists("dataframeName")){
+  if(dataframeName == "absent__default"){
+    fieldAttributesReady_body <- '"deleteMe"'
+  }else {
     ## Create a dataframe with column attributes----
     # Create a dataframe with columns for each field: field, displayName, autocomplete, and type.
     fieldAttributes <- data.frame(field = colnames(dataframeName), # Gets the column names of the dataset to index
@@ -56,8 +58,6 @@ updateTable <- function(apiKey, tableId, numetricName, dataframeName, category, 
 
     fieldAttributesReady_body <- paste0('"fields": {',wholeString,'}')
 
-  }else{
-    fieldAttributesReady_body <- '"deleteMe"'
   }
 
   if(exists("numetricName")){
