@@ -16,11 +16,11 @@
 #' @return Numetric Id
 #' @export
 
-updateTable <- function(apiKey, tableId, numetricName = "absent__default", descriptionName = "absent__default", dataframeName = "absent__default", category = "absent__default", primaryKey = "absent__default", geoshapes = "", geopoints = "", boolean = "", transformations = "absent__default"){
+updateTable <- function(apiKey, tableId, numetricName = "absent__default", description = "absent__default", dataframeName = "absent__default", category = "absent__default", primaryKey = "absent__default", geoshapes = "", geopoints = "", boolean = "", transformations = "absent__default"){
   # Example: nApiCreateTableV3(apiKey = apiKey, numetricName = "Retail Sports",dataframeName = sport2Sample,category = "Retail Sports", primaryKey="primaryKey")
   # Be sure to have a field in the dataframe that is a unique value for each row.
 
-  if(class(dataframeName) == "character" & dataframeName == "absent__default"){
+  if(class(dataframeName) == "character"){
     fieldAttributesReady_body <- '"deleteMe"'
   }else {
     ## Create a dataframe with column attributes----
@@ -84,7 +84,7 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
     description_body <- paste0('"description": "', description, '"')
   }
 
-  if(class(transformations) == "character" & transformations == "absent__default"){
+  if(class(transformations) == "character"){
     transformations_body <- '"deleteMe"'
   }else{
     transformations_body <- paste0('"transformations":', toJSON(transformations))
