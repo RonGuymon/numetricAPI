@@ -20,7 +20,7 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
   # Example: nApiCreateTableV3(apiKey = apiKey, numetricName = "Retail Sports",dataframeName = sport2Sample,category = "Retail Sports", primaryKey="primaryKey")
   # Be sure to have a field in the dataframe that is a unique value for each row.
 
-  if(class(dataframeName) == "character" & dataframeName == "absent_default"){
+  if(class(dataframeName) == "character" & dataframeName == "absent__default"){
     fieldAttributesReady_body <- '"deleteMe"'
   }else {
     ## Create a dataframe with column attributes----
@@ -84,7 +84,7 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
     description_body <- paste0('"description": "', description, '"')
   }
 
-  if(class(transformations) == "character" & transformations == "absent_default"){
+  if(class(transformations) == "character" & transformations == "absent__default"){
     transformations_body <- '"deleteMe"'
   }else{
     transformations_body <- paste0('"transformations":', toJSON(transformations))
