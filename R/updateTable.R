@@ -32,7 +32,20 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
   }
 
   if(class(dataframeName) == "character"){
-    fieldAttributesReady_body <- paste0('"fields": ',toJSON(response$fields))
+    wholeString <- ""
+    for(i in 1:length(response$fields)){
+      a <- response$fields[i]
+      a <- unlist(a)
+      tempString <- paste0('"',a[1],'": {"displayName": "',a[1] ,'","type": "',a[3],'"},')
+
+      wholeString <- paste0(wholeString,tempString)
+      if(i == length(response$fields)){
+        wholeString <- gsub(",$","",wholeString)
+      }
+    }
+
+
+    fieldAttributesReady_body <- paste0('"fields": {',wholeString,'}')
   }else {
     ## Create a dataframe with column attributes----
     # Create a dataframe with columns for each field: field, displayName, autocomplete, and type.
@@ -106,12 +119,13 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
                     primaryKey_body,
                     category_body,
                     description_body,
-                    fieldAttributesReady_body,
                     transformations_body,
+                    fieldAttributesReady_body,
                     sep = ",") %>%
     gsub('"deleteMe",|"deleteMe"|,"deleteMe"', '', .) %>%
+    # gsub('"order":\\[\\d{1,}\\],', '', .) %>%
     paste0('{', ., '}')
-
+# write(metadata, "metadata")
   # Index the data----
   r <- PATCH(paste0("https://api.numetric.com/v3/table/", tableId),
             add_headers("Authorization" = apiKey,
@@ -121,6 +135,10 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
   )
   content(r)
 }
+
+
+
+
 
 # library(httr)
 # library(dplyr)
@@ -148,7 +166,9 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
 #   ) %>%
 #   bind_rows(trannies, .) %>%
 #   .[1:4,]
-
-
-
+#
+# r <- GET(paste0("https://api.numetric.com/v3/table/", tableId,"/publish"),
+#          add_headers("Authorization" = apiKey),
+#          verbose()
+# )
 
