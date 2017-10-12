@@ -20,8 +20,19 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
   # Example: nApiCreateTableV3(apiKey = apiKey, numetricName = "Retail Sports",dataframeName = sport2Sample,category = "Retail Sports", primaryKey="primaryKey")
   # Be sure to have a field in the dataframe that is a unique value for each row.
 
+  if(numetricName == "absent__default" | dataframeName == "absent__default" | primaryKey == "absent__default"){
+    r <- GET(paste0("https://api.numetric.com/v3/table/", tableId),
+             add_headers("Authorization" = apiKey,
+                         `Content-Type` = "application/json")
+             # ,
+             # verbose()
+    )
+    response <- httr::content(r, as = "text") %>% # Saves what was returned as raw text with all the encodings
+      fromJSON()
+  }
+
   if(class(dataframeName) == "character"){
-    fieldAttributesReady_body <- '"deleteMe"'
+    fieldAttributesReady_body <- paste0('"fields": ',toJSON(response$fields))
   }else {
     ## Create a dataframe with column attributes----
     # Create a dataframe with columns for each field: field, displayName, autocomplete, and type.
@@ -61,13 +72,13 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
   }
 
   if(numetricName == "absent__default"){
-    numetricName_body <- '"deleteMe"'
+    numetricName_body <- paste0('"name": "', response$name, '"')
   }else{
     numetricName_body <- paste0('"name": "', numetricName, '"')
   }
 
   if(primaryKey == "absent__default"){
-    primaryKey_body <- '"deleteMe"'
+    primaryKey_body <- paste0('"primaryKey": ["', response$primaryKey,'"]')
   }else{
     primaryKey_body <- paste0('"primaryKey": ["', primaryKey, '"]')
   }
