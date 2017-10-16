@@ -111,7 +111,8 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
   if(class(transformations) == "character"){
     transformations_body <- '"deleteMe"'
   }else{
-    transformations_body <- paste0('"transformations":', toJSON(transformations))
+    transformations_body <- paste0('"transformations":', toJSON(transformations)) %>%
+      gsub('"values":\\{\\},', '',.)
   }
 
   ## Merge the field attributes with the other information required----
@@ -139,36 +140,34 @@ updateTable <- function(apiKey, tableId, numetricName = "absent__default", descr
 
 
 
-
-# library(httr)
-# library(dplyr)
-# library(magrittr)
-# library(jsonlite)
-# apiKey <- "SMGfRBqmXanyL9mCigflRpJUONSbHvxFxWS1Y3Y1sms%3D"
-# tableId2 <- "6f059e23-130b-4ec7-a186-cb4a7749c882" #Signbase2
-# tableId <- "6f059e23-130b-4ec7-a186-cb4a7749c882" #Signbase2
-# tableId1 <- "c1753796-83fa-4a65-aaa9-fd71d56462a9" # Signbase
-# category <- "Fettucini"
-#
-# r <- GET(paste0("https://api.numetric.com/v3/table/", tableId1),
-#          add_headers("Authorization" = apiKey,
-#                      "Content-Type" = "application/json"),
-#          verbose()
-# )
-# response <- httr::content(r, as = "text") %>% fromJSON()
-# response
-# trannies <- response$transformations
-# transformations <- trannies %>%
-#   mutate(
-#     sourceField = "L2DirOfTravel",
-#     targetField = "L2DirOfTravel",
-#     index = ifelse(index == 1, 3, 4)
-#   ) %>%
-#   bind_rows(trannies, .) %>%
-#   .[1:4,]
-#
-# r <- GET(paste0("https://api.numetric.com/v3/table/", tableId,"/publish"),
-#          add_headers("Authorization" = apiKey),
-#          verbose()
-# )
-
+ # library(httr)
+ # library(dplyr)
+ # library(magrittr)
+ # library(jsonlite)
+ # apiKey <- "SMGfRBqmXanyL9mCigflRpJUONSbHvxFxWS1Y3Y1sms%3D"
+ # tableId2 <- "6f059e23-130b-4ec7-a186-cb4a7749c882" #Signbase2
+ # tableId <- "6f059e23-130b-4ec7-a186-cb4a7749c882" #Signbase2
+ # # tableId1 <- "c1753796-83fa-4a65-aaa9-fd71d56462a9" # Signbase
+ # tableId1 <- "e1518ea6-f121-4c27-bb5a-8437d181ef58" # Airspace
+ # category <- "Gnocchi"
+ #
+ # r <- GET(paste0("https://api.numetric.com/v3/table/", tableId1),
+ #          add_headers("Authorization" = apiKey,
+ #                      "Content-Type" = "application/json"),
+ #          verbose()
+ # )
+ # response <- httr::content(r, as = "text") %>% fromJSON()
+ # response
+ # trannies <- response$transformations %>% .[21,1:10]
+ # transformations <- trannies %>%
+ #   mutate(
+ #     sourceField = "CityTownVillage",
+ #     targetField = "CityTownVillage",
+ #     index = 1
+ #   )
+ #
+ # r <- GET(paste0("https://api.numetric.com/v3/table/", tableId,"/publish"),
+ #          add_headers("Authorization" = apiKey),
+ #          verbose()
+ # )
+ #
