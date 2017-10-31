@@ -28,12 +28,22 @@ updateDataset <- function(apiKey, datasetId, numetricName, dataframeName, catego
                                                                   ifelse(type == "integer", "integer",
                                                                          ifelse(type == "Date" | type == "POSIXct" | type == "POSIXlt", "datetime", "string")))))
   # Add in the fields that should be autocompleted and geocoded
-  fieldAttributes <- mutate(fieldAttributes, autocomplete = ifelse(field %in% autocompletes, "true", "false"),
-                            type = ifelse(field %in% geoshapes, "geo_shape",
-                                          ifelse(field %in% geopoints, "geo_point", type)),
-                            type = ifelse(grepl("date", field, ignore.case = T), "datetime", type),
-                            type = ifelse(field %in% boolean, "boolean", type)
-  )
+  if(length(autocompletes) < 1){
+    fieldAttributes <- mutate(fieldAttributes,
+                              type = ifelse(field %in% geoshapes, "geo_shape",
+                                            ifelse(field %in% geopoints, "geo_point", type)),
+                              type = ifelse(grepl("date", field, ignore.case = T), "datetime", type),
+                              type = ifelse(field %in% boolean, "boolean", type)
+    )
+  }else{
+    fieldAttributes <- mutate(fieldAttributes,
+                              autocomplete = ifelse(field %in% autocompletes, "true", "false"),
+                              type = ifelse(field %in% geoshapes, "geo_shape",
+                                            ifelse(field %in% geopoints, "geo_point", type)),
+                              type = ifelse(grepl("date", field, ignore.case = T), "datetime", type),
+                              type = ifelse(field %in% boolean, "boolean", type)
+    )
+  }
 
   fieldAttributes <- jsonlite::toJSON(fieldAttributes, dataframe = "rows") # Convert to JSON format
   fieldAttributes <- gsub('\\"true\\"', 'true', fieldAttributes) # Remove quotes around true for autocomplete
