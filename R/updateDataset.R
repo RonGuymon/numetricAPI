@@ -17,18 +17,26 @@
 #' @return Returns the status of the update.
 #' @export
 updateDataset <- function(apiKey, datasetId, numetricName, dataframeName, category = "New Data", autocompletes = "", geoshapes = "", geopoints = "", boolean = ""){
-  fieldAttributes <- data.frame(field = colnames(dataframeName), # Gets the column names of the dataset to index
-                                displayName = colnames(dataframeName), # Uses the column names of the dataset as the display names
-                                autocomplete = rep("false", ncol(dataframeName)), # Does not make anything autocompletable
-                                type = array(lapply(dataframeName, class)) %>% as.character() # Gets the class of each column in the dataframe
-  )
+  if(autocompletes == ""){
+    fieldAttributes <- data.frame(field = colnames(dataframeName), # Gets the column names of the dataset to index
+                                  displayName = colnames(dataframeName), # Uses the column names of the dataset as the display names
+                                  type = array(lapply(dataframeName, class)) %>% as.character() # Gets the class of each column in the dataframe
+    )
+  }else{
+    fieldAttributes <- data.frame(field = colnames(dataframeName), # Gets the column names of the dataset to index
+                                  displayName = colnames(dataframeName), # Uses the column names of the dataset as the display names
+                                  autocomplete = rep("false", ncol(dataframeName)), # Does not make anything autocompletable
+                                  type = array(lapply(dataframeName, class)) %>% as.character() # Gets the class of each column in the dataframe
+    )
+  }
+
   # Convert r class types to valid numetric class types
   fieldAttributes <- mutate(fieldAttributes, type = ifelse(type == "character", "string",
                                                            ifelse(type == "numeric", "double",
                                                                   ifelse(type == "integer", "integer",
                                                                          ifelse(type == "Date" | type == "POSIXct" | type == "POSIXlt", "datetime", "string")))))
   # Add in the fields that should be autocompleted and geocoded
-  if(length(autocompletes) == 1){
+  if(autocompletes == ""){
     fieldAttributes <- mutate(fieldAttributes,
                               type = ifelse(field %in% geoshapes, "geo_shape",
                                             ifelse(field %in% geopoints, "geo_point", type)),
