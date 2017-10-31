@@ -28,7 +28,7 @@ updateDataset <- function(apiKey, datasetId, numetricName, dataframeName, catego
                                                                   ifelse(type == "integer", "integer",
                                                                          ifelse(type == "Date" | type == "POSIXct" | type == "POSIXlt", "datetime", "string")))))
   # Add in the fields that should be autocompleted and geocoded
-  if(length(autocompletes) < 1){
+  if(length(autocompletes) == 1){
     fieldAttributes <- mutate(fieldAttributes,
                               type = ifelse(field %in% geoshapes, "geo_shape",
                                             ifelse(field %in% geopoints, "geo_point", type)),
