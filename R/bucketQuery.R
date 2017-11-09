@@ -20,7 +20,7 @@
 #' @export
 bucketQuery <- function(apiKey, datasetId, bucketVar, filterType = "none", filterField, filterValue, customFilterValue, must = "true", lowerBound, upperBound, childField, childOperation){
 
-  # Filters
+  # #Filters
   if(filterType == "term"){
     filters <- paste0('"filters":
     [{"filter": "', filterType, '",
